@@ -1,0 +1,8 @@
+//POST http://localhost:3001/api/persons
+POST https://myownphonebook.fly.dev/api/persons
+Content-Type: application/json
+
+  {
+    "name": "XXXAdam Lovelace",
+    "number": "050-1234567"    
+  }
