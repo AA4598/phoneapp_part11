@@ -1,13 +1,19 @@
 const mongoose = require('mongoose')
+require('dotenv').config();
 
 mongoose.set('strictQuery', false)
 
 const url = process.env.MONGODB_URI
-//const url='mongodb+srv://aa4598:icGPRBCtUYDEcpQK@cluster0.clqvw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
-console.log('connecting to', url)
+
+//const url='mongodb+srv://aa4598:rytky2025@cluster0.clqvw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+
+
+//MONGODB_URI=mongodb://username:password@cluster0.sqqvc.mongodb.net/myDatabase?retryWrites=true&w=majority
+
+//console.log('connecting to', url)
 mongoose.connect(url)
   .then(result => {
-    console.log('connected to MongoDB',result)
+    console.log('connected to MongoDB'); //,result)
   })
   .catch((error) => {
     console.log('error connecting to MongoDB:', error.message)

@@ -5,7 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "cypress:open": "cypress open",
+    "test:e2e": "cypress run"
   },
   "author": "AA3498@student.jamk.fi",
   "license": "ISC",
@@ -19,6 +21,7 @@
     "nodemon": "^3.1.9"
   },
   "devDependencies": {
-    "@flydotio/dockerfile": "^0.7.2"
+    "@flydotio/dockerfile": "^0.7.2",
+    "cypress": "^14.1.0"
   }
 }

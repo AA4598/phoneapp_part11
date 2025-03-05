@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for my-phonebook-app-spring-morning-9875 on 2025-03-05T18:45:07+02:00
+# fly.toml app configuration file generated for backend-black-water-3821 on 2025-03-05T22:32:16+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'my-phonebook-app-spring-morning-9875'
+app = 'backend-black-water-3821'
 primary_region = 'arn'
 
 [build]

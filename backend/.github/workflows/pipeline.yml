@@ -1,41 +1,20 @@
-name: Backend Pipeline
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-
 jobs:
-  build:
+  e2e-tests:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start the app
+        run: npm start &
+
+      - name: Wait for backend to be ready
+        run: npx wait-on http://localhost:3000
+
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v5
         with:
-          node-version: 18
-
-      - name: Install and build frontend
-        run: |
-          cd frontend
-          npm install
-          npm run build
-
-      - name: Move dist folder to backend
-        run: |
-          rm -rf backend/dist
-          mv frontend/dist backend/
-
-      - name: Install backend dependencies
-        run: |
-          cd backend
-          npm install
-
-      - name: Run backend tests
-        run: |
-          cd backend
-          npm test
+          command: npm run test:e2e
