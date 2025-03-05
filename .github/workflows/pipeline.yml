@@ -1,6 +1,17 @@
+name: Backend Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   e2e-tests:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend  # 👈 Ensure all commands run inside backend folder
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -8,8 +19,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Start the app
-        run: npm start &
+      - name: Start backend
+        run: npm start &  # Start in background
 
       - name: Wait for backend to be ready
         run: npx wait-on http://localhost:3000
@@ -17,4 +28,6 @@ jobs:
       - name: Run Cypress tests
         uses: cypress-io/github-action@v5
         with:
-          command: npm run test:e2e
+          working-directory: backend
+          start: npm start
+          wait-on: http://localhost:3000
