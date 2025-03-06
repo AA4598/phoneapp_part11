@@ -60,7 +60,11 @@ let persons = [
 ];
 */
 
-app.use(express.static("dist"));
+//app.use("/heippa",express.static("dist"));
+// app.use(express.static("dist"));
+app.use('/', express.static('dist'));
+
+
 /*if (process.env.SERVE_STATIC === "true") {
   app.use(express.static("dist"));
 } else {
