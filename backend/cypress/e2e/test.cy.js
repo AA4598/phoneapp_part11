@@ -5,7 +5,7 @@ describe("Logging Debug", () => {
 });
 
 
-/*
+
 describe("Landing Page Debug", () => {
   it("should log the page content or an error message", () => {
     cy.request({
@@ -23,7 +23,7 @@ describe("Landing Page Debug", () => {
     });
   });
 });
-*/
+
 
 /*
 describe("Landing Page", () => {
