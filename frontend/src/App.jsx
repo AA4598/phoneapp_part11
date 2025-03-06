@@ -125,7 +125,16 @@ const App = () => {
   const [filter, setFilter] = useState("");
   const [notifyMessage, setNotifyMessage] = useState(null);
 
+  
   useEffect(() => {
+      document.body.style.backgroundColor = "#f0f0f0";
+    return () => {
+      document.body.style.backgroundColor = "";
+    };
+  }, []);
+
+  useEffect(() => {
+    
     personService.getAll().then((persons) => {
       setPersons(persons);
     });
