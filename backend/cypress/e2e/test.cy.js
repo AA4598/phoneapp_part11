@@ -5,16 +5,18 @@ describe("Landing Page Debug", () => {
       failOnStatusCode: false, // Prevent Cypress from failing on non-2xx responses
     }).then((response) => {
       if (response.status >= 200 && response.status < 300) {
-        //cy.log("✅ Page Loaded Successfully");
-        //cy.log("Page Content: " + response.body.substring(0, 500)); // Show first 500 chars
-        //console.log("Full Page Content:", response.body); // Print everything in browser console
+        cy.log("✅ Page Loaded Successfully");
+        cy.log("Page Content: " + response.body.substring(0, 500)); // Show first 500 chars
+
+        cy.task("log", "Full Page Content:\n" + response.body); // Ensure log appears in GitHub Actions
       } else {
-        //cy.log(`❌ Request failed with status ${response.status}: ${response.statusText}`);
-        //console.error(`Error ${response.status}: ${response.statusText}`);
+        cy.log(`❌ Request failed with status ${response.status}: ${response.statusText}`);
+        cy.task("log", `Error ${response.status}: ${response.statusText}`);
       }
     });
   });
 });
+
 
 
 
