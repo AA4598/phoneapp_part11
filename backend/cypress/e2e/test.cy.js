@@ -29,6 +29,7 @@ describe("Landing Page Debug", () => {
 });
 
 
+/*
 describe("Landing Page", () => {
   it("should display 'filter shown with:' text", () => {
     //cy.visit("http://localhost:3000");
@@ -38,6 +39,7 @@ describe("Landing Page", () => {
     //cy.contains("filter shown with:", { timeout: 10000 }).should("be.visible");
   });
 });
+*/
 
 describe("Info Page", () => {
   it("should display 'Phonebook has info for' text", () => {

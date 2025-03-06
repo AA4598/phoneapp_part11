@@ -33,6 +33,18 @@ jobs:
           rm -rf backend/dist
           mv frontend/dist backend/
 
+      - name: Start backend
+        run: cd backend && npm start &
+
+      - name: Wait for backend to be ready
+        run: cd backend && npx wait-on http://localhost:3000/info --timeout 120000
+
+      - name: e2e tests (cypress)
+        uses: cypress-io/github-action@v5
+        with:
+          working-directory: backend
+          command: npm run test:e2e
+
       #- name: e2e tests
       #  uses: cypress-io/github-action@v5
       #  with:
