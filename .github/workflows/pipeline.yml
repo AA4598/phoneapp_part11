@@ -20,7 +20,7 @@ jobs:
         run: cd backend && npm start &
 
       - name: Wait for backend to be ready
-        run: cd backend && npx wait-on http://localhost:3000 --timeout 120000
+        run: cd backend && npx wait-on http://localhost:3000/info --timeout 120000
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v5
