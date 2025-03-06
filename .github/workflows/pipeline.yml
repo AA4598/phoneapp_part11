@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend
+        working-directory: backend  # Ensure all commands run inside the backend folder
 
     steps:
       - name: Checkout repository
@@ -20,7 +20,7 @@ jobs:
         run: npm install
 
       - name: Start backend
-        run: npm start &
+        run: npm start &  # Start backend in background
 
       - name: Wait for backend to be ready
         run: npx wait-on http://localhost:3000
