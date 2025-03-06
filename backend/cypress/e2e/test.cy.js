@@ -6,9 +6,8 @@ describe("Landing Page Debug", () => {
     }).then((response) => {
       if (response.status >= 200 && response.status < 300) {
         cy.log("✅ Page Loaded Successfully");
-        cy.log("Page Content: " + response.body.substring(0, 500)); // Show first 500 chars
-
-        cy.task("log", "Full Page Content:\n" + response.body); // Ensure log appears in GitHub Actions
+        cy.log("Page Content: " + response.body.substring(0, 500)); // First 500 chars
+        cy.task("log", "Full Page Content:\n" + response.body); // Prints to GitHub Actions log
       } else {
         cy.log(`❌ Request failed with status ${response.status}: ${response.statusText}`);
         cy.task("log", `Error ${response.status}: ${response.statusText}`);
@@ -16,8 +15,6 @@ describe("Landing Page Debug", () => {
     });
   });
 });
-
-
 
 
 /*

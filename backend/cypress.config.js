@@ -3,8 +3,15 @@ const { defineConfig } = require("cypress");
 module.exports = defineConfig({
   e2e: {
     baseUrl: "http://localhost:3000",
+    video: true,
+    screenshotOnRunFailure: true,
     setupNodeEvents(on, config) {
-      // implement node event listeners here      
+      on("task", {
+        log(message) {
+          console.log(message); // Print to terminal (GitHub Actions logs)
+          return null;
+        },
+      });
     },
   },
 });
