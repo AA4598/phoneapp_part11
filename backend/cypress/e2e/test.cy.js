@@ -1,8 +1,8 @@
 describe("Landing Page Debug", () => {
   it("should log the page content", () => {
     cy.request("http://localhost:3000").then((response) => {
-      cy.log(response.body); // Logs HTML content
-      console.log(response.body); // Prints to Cypress console
+      cy.log("Page Content: " + response.body.substring(0, 500)); // Show only the first 500 chars
+      console.log("Full Page Content:", response.body); // Print everything in browser console
     });
   });
 });
