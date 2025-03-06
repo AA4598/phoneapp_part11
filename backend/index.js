@@ -64,9 +64,12 @@ let persons = [
 // app.use(express.static("dist"));
 app.use('/', express.static('dist'));
 
+/*
 app.get('/health', (req, res) => {
+  
   res.send('ok')
-})
+
+})*/
 
 /*if (process.env.SERVE_STATIC === "true") {
   app.use(express.static("dist"));
