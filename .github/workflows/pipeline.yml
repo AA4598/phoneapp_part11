@@ -25,9 +25,6 @@ jobs:
       - name: Wait for backend to be ready
         run: cd backend && npx wait-on http://localhost:3000 --timeout 120000
 
-      - name: Debug: Check running processes
-        run: ps aux
-
       - name: Run Cypress tests
         uses: cypress-io/github-action@v5
         with:
