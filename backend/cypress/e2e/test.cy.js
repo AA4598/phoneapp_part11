@@ -10,7 +10,8 @@ describe("Logging Debug", () => {
 describe("Landing Page Debug", () => {
   it("should log the page content or an error message", () => {
     cy.request({
-      url: "http://localhost:3000",
+      //url: "http://localhost:3000",
+      url: "/",
       failOnStatusCode: false, // Prevent test failure on errors
     }).then((response) => {
       cy.task("log", `🔍 HTTP Status: ${response.status}`);
@@ -40,7 +41,8 @@ describe("Landing Page", () => {
 
 describe("Info Page", () => {
   it("should display 'Phonebook has info for' text", () => {
-    cy.visit("http://localhost:3000/info");
+    //cy.visit("http://localhost:3000/info");
+    cy.visit("/info");
     cy.contains("Phonebook has info for").should("be.visible");
   });
 });
