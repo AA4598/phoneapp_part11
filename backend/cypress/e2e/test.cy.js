@@ -3,7 +3,7 @@ describe("Landing Page", () => {
       cy.visit("http://localhost:3000/info"); // Ensure the app is running
       //cy.visit("/");
       //cy.contains("filter shown with:").should("be.visible");
-      cy.contains("PhonebookXXX").should("be.visible");
+      cy.contains("Phonebook has info for").should("be.visible");
     });
   });
   
