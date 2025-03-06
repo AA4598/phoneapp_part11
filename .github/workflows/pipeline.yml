@@ -13,24 +13,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Move into backend directory
-        run: cd backend
-
       - name: Install dependencies
-        run: npm install
-        working-directory: backend  # Explicitly set working directory
+        run: cd backend && npm install
+
+      - name: Build frontend
+        run: cd backend && npm run build
 
       - name: Start backend
-        run: npm start &
-        working-directory: backend
+        run: cd backend && npm start &
 
       - name: Wait for backend to be ready
-        run: npx wait-on http://localhost:3000
-        working-directory: backend
+        run: cd backend && npx wait-on http://localhost:3000 --timeout 120000
+
+      - name: Debug: Check running processes
+        run: ps aux
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v5
         with:
-          command: npm run test:e2e
-          wait-on: http://localhost:3000
           working-directory: backend
+          command: npm run test:e2e
