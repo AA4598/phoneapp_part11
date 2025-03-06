@@ -1,7 +1,7 @@
 name: Deployment pipeline
 
-permissions:
-  contents: write  # Grants permission to create tags
+#permissions:
+#  contents: write  # Grants permission to create tags
 
 on:
   push:
