@@ -1,11 +1,12 @@
+/*
 describe("Logging Debug", () => {
   it("should log a test message", () => {
     cy.task("log", "✅ Cypress logging works! This should appear in GitHub Actions.");
   });
 });
+*/
 
-
-
+/*
 describe("Landing Page Debug", () => {
   it("should log the page content or an error message", () => {
     cy.request({
@@ -22,10 +23,10 @@ describe("Landing Page Debug", () => {
       }
     });
   });
-});
+});*/
 
 
-/*
+
 describe("Landing Page", () => {
   it("should display 'filter shown with:' text", () => {
     cy.visit("http://localhost:3000");
@@ -41,4 +42,4 @@ describe("Info Page", () => {
     cy.contains("Phonebook has info for").should("be.visible");
   });
 });
-*/
+
