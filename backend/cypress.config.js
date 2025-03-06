@@ -8,7 +8,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       on("task", {
         log(message) {
-          console.log(message); // Print to terminal (GitHub Actions logs)
+          console.log("🔍 Cypress Log:", message); // Should appear in GitHub Actions logs
           return null;
         },
       });
