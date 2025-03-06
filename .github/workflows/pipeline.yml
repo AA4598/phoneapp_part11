@@ -27,3 +27,17 @@ jobs:
         run: cd frontend && npm run lint
       - name: Build
         run: cd frontend && npm run build  
+
+      - name: Move dist folder to backend
+        run: |
+          rm -rf backend/dist
+          mv frontend/dist backend/
+
+      #- name: e2e tests
+      #  uses: cypress-io/github-action@v5
+      #  with:
+      #    command: npm run test:e2e
+      #    start: npm run start-prod
+      #    wait-on: http://localhost:5000
+
+
