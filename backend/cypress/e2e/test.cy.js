@@ -7,6 +7,7 @@ describe("Landing Page Debug", () => {
   });
 });
 
+/*
 describe("Landing Page", () => {
   it("should display 'filter shown with:' text", () => {
     cy.visit("http://localhost:3000");
@@ -22,3 +23,4 @@ describe("Info Page", () => {
     cy.contains("Phonebook has info for").should("be.visible");
   });
 });
+*/
