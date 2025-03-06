@@ -1,12 +1,12 @@
-/*
+
 describe("Logging Debug", () => {
   it("should log a test message", () => {
     cy.task("log", "✅ Cypress logging works! This should appear in GitHub Actions.");
   });
 });
-*/
 
-/*
+
+
 describe("Landing Page Debug", () => {
   it("should log the page content or an error message", () => {
     cy.request({
@@ -23,7 +23,7 @@ describe("Landing Page Debug", () => {
       }
     });
   });
-});*/
+});
 
 
 

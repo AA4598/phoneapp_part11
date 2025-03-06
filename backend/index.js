@@ -60,13 +60,14 @@ let persons = [
 ];
 */
 
-if (process.env.SERVE_STATIC === "true") {
+app.use(express.static("dist"));
+/*if (process.env.SERVE_STATIC === "true") {
   app.use(express.static("dist"));
 } else {
   app.get("/", (request, response) => {
     response.send("<h1>Phoneapp server ready to serve</h1>");
   });
-}
+}*/
 
 
 app.get("/api/persons", (request, response, next) => {
