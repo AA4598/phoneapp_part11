@@ -15,3 +15,4 @@ käynnistä sovellus
 npm run dev
 ja annea komento
 npm run test:e2e
+
