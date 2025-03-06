@@ -42,6 +42,7 @@ jobs:
           command: npm run test:e2e
       - name: Debug Secrets
         run: echo "DISCORD_WEBHOOK is set"
+
       - name: Notify Discord on Success
         if: success()
         uses: Ilshidur/action-discord@master
@@ -49,13 +50,10 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
           args: "Deployment successful! Commit: ${{ github.sha }}"
-        #with:
-        #  args: "Build succeeded! Commit: ${{ github.sha }}"
-        #  webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+
       - name: Notify Discord on Failure
         if: failure()
         uses: Ilshidur/action-discord@master
-        
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
@@ -63,12 +61,6 @@ jobs:
             Build failed! Commit: ${{ github.sha }}
             **Author:** ${{ github.actor }}
             **Commit message:** ${{ github.event.head_commit.message }}                
-        #with:
-        #  args: |
-        #    Build failed! Commit: ${{ github.sha }}
-        #    **Author:** ${{ github.actor }}
-        #    **Commit message:** ${{ github.event.head_commit.message }}
-        #  webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
 
   deploy:
     if: github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip')
@@ -77,6 +69,7 @@ jobs:
     concurrency: deploy-group
     env:
       DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+
     steps:
       - uses: actions/checkout@v4
       - uses: superfly/flyctl-actions/setup-flyctl@master
@@ -85,21 +78,25 @@ jobs:
         run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
       - name: Notify Discord on Deployment Success
         if: success()
         uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
           args: "Deployment successful! Commit: ${{ github.sha }}"
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+
       - name: Notify Discord on Deployment Failure
         if: failure()
         uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
           args: |
             Deployment failed! Commit: ${{ github.sha }}
             **Author:** ${{ github.actor }}
             **Commit message:** ${{ github.event.head_commit.message }}
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
 
   tag_release:
     if: github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip')
