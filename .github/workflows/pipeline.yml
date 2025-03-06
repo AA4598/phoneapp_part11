@@ -10,7 +10,7 @@ on:
 
 jobs:
   simple_deployment_pipeline:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
 
@@ -45,9 +45,13 @@ jobs:
       - name: Notify Discord on Success
         if: success()
         uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
-          args: "Build succeeded! Commit: ${{ github.sha }}"
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          args: "Deployment successful! Commit: ${{ github.sha }}"
+        #with:
+        #  args: "Build succeeded! Commit: ${{ github.sha }}"
+        #  webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Notify Discord on Failure
         if: failure()
         uses: Ilshidur/action-discord@master
