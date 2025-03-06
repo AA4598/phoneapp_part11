@@ -16,10 +16,10 @@ describe("Landing Page Debug", () => {
       if (response.status >= 200 && response.status < 300) {
         cy.log("✅ Page Loaded Successfully");
         cy.log("Page Content: " + response.body.substring(0, 500)); // First 500 chars
-        cy.task("log", "Full Page Content:\n" + response.body); // Prints to GitHub Actions log
+        cy.task("log#1", "Full Page Content:\n" + response.body); // Prints to GitHub Actions log
       } else {
         cy.log(`❌ Request failed with status ${response.status}: ${response.statusText}`);
-        cy.task("log", `Error ${response.status}: ${response.statusText}`);
+        cy.task("log#2", `Error ${response.status}: ${response.statusText}`);
       }
     });
   });
@@ -36,7 +36,7 @@ describe("Landing Page", () => {
 });
 
 describe("Info Page", () => {
-  it("should display 'filter shown with:' text", () => {
+  it("should display 'Phonebook has info for' text", () => {
     cy.visit("http://localhost:3000/info");
     cy.contains("Phonebook has info for").should("be.visible");
   });
