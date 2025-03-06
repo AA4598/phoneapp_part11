@@ -45,6 +45,31 @@ jobs:
           working-directory: backend
           command: npm run test:e2e
 
+      # Debugging step to verify secret availability
+      - name: Debug Secrets
+        run: echo "DISCORD_WEBHOOK is set"
+        env:
+          WEBHOOK: ${{ env.DISCORD_WEBHOOK }}
+
+      # Notify Discord on Success
+      - name: Notify Discord on Success
+        if: success()
+        uses: Ilshidur/action-discord@master
+        with:
+          args: "Build succeeded! Commit: ${{ github.sha }}"
+          webhook_url: ${{ env.DISCORD_WEBHOOK }}
+
+      # Notify Discord on Failure
+      - name: Notify Discord on Failure
+        if: failure()
+        uses: Ilshidur/action-discord@master
+        with:
+          args: |
+            Build failed! Commit: ${{ github.sha }}
+            **Author:** ${{ github.actor }}
+            **Commit message:** ${{ github.event.head_commit.message }}
+          webhook_url: ${{ env.DISCORD_WEBHOOK }}
+
       #- name: e2e tests
       #  uses: cypress-io/github-action@v5
       #  with:
