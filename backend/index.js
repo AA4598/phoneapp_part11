@@ -70,9 +70,9 @@ app.use(express.static("dist"));
 }*/
 
 
-app.get("/", (request, response) => {
+/*app.get("/", (request, response) => {
   response.send("<h1>Phoneapp server ready to serve</h1>");
-});
+});*/
 
 
 app.get("/api/persons", (request, response, next) => {
