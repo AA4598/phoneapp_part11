@@ -26,7 +26,6 @@ describe("Landing Page Debug", () => {
 });
 
 
-
 describe("Landing Page", () => {
   it("should display 'filter shown with:' text", () => {
     cy.visit("http://localhost:3000");
