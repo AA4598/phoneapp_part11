@@ -33,7 +33,7 @@ const errorHandler = (error, request, response, next) => {
 
 // tämä tulee kaikkien muiden middlewarejen rekisteröinnin jälkeen!
 
-app.use(express.static("dist"));
+//app.use(express.static("dist"));
 
 /*
 let persons = [
