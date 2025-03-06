@@ -8,25 +8,29 @@ on:
 jobs:
   e2e-tests:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend  # Ensure all commands run inside the backend folder
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Move into backend directory
+        run: cd backend
+
       - name: Install dependencies
         run: npm install
+        working-directory: backend  # Explicitly set working directory
 
       - name: Start backend
-        run: npm start &  # Start backend in background
+        run: npm start &
+        working-directory: backend
 
       - name: Wait for backend to be ready
         run: npx wait-on http://localhost:3000
+        working-directory: backend
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v5
         with:
           command: npm run test:e2e
           wait-on: http://localhost:3000
+          working-directory: backend
