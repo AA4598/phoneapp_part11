@@ -76,7 +76,7 @@ const Persons = ({ persons, filter, deletePerson }) => {
 };
 
 const Notification = ({ message, mode, setNotifyMessage }) => {
-  let notifyStyle = null;
+  //let notifyStyle = null;
 
   /*
   if (mode === "success") {
