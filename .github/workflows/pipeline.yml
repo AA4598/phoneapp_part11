@@ -25,41 +25,29 @@ jobs:
         run: cd frontend && npm install
       - name: Check style
         run: cd frontend && npm run lint
-      - name: Build
+      - name: Build frontend
         run: cd frontend && npm run build  
-
       - name: Move dist folder to backend
         run: |
           rm -rf backend/dist
           mv frontend/dist backend/
-
       - name: Start backend
         run: cd backend && npm start &
-
       - name: Wait for backend to be ready
         run: cd backend && npx wait-on http://localhost:3000/info --timeout 120000
-
-      - name: e2e tests (cypress)
+      - name: Run end-to-end tests (Cypress)
         uses: cypress-io/github-action@v5
         with:
           working-directory: backend
           command: npm run test:e2e
-
-      # Debugging step to verify secret availability
       - name: Debug Secrets
         run: echo "DISCORD_WEBHOOK is set"
-        env:
-          WEBHOOK: ${{ env.DISCORD_WEBHOOK }}
-
-      # Notify Discord on Success
       - name: Notify Discord on Success
         if: success()
         uses: Ilshidur/action-discord@master
         with:
           args: "Build succeeded! Commit: ${{ github.sha }}"
-          webhook_url: ${{ env.DISCORD_WEBHOOK }}
-
-      # Notify Discord on Failure
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Notify Discord on Failure
         if: failure()
         uses: Ilshidur/action-discord@master
@@ -68,52 +56,40 @@ jobs:
             Build failed! Commit: ${{ github.sha }}
             **Author:** ${{ github.actor }}
             **Commit message:** ${{ github.event.head_commit.message }}
-          webhook_url: ${{ env.DISCORD_WEBHOOK }}
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
 
-      #- name: e2e tests
-      #  uses: cypress-io/github-action@v5
-      #  with:
-      #    command: npm run test:e2e
-      #    start: npm run start-prod
-      #    wait-on: http://localhost:5000
-
-deploy:    
-    if: ${{ github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip') }}
-    needs: simple_deployment_pipeline
-    name: Deploy app
-    runs-on: ubuntu-latest
-    concurrency: deploy-group
-    env:
-      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-    
-    steps:
-      - uses: actions/checkout@v4
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-
-      # Notify Discord on Deployment Success
-      - name: Notify Discord on Deployment Success
-        if: success()
-        uses: Ilshidur/action-discord@master
-        with:
-          args: "Deployment successful! Commit: ${{ github.sha }}"
-          webhook_url: ${{ env.DISCORD_WEBHOOK }}
-
-      # Notify Discord if Deployment Fails
-      - name: Notify Discord on Deployment Failure
-        if: failure()
-        uses: Ilshidur/action-discord@master
-        with:
-          args: |
-            Deployment failed! Commit: ${{ github.sha }}
-            **Author:** ${{ github.actor }}
-            **Commit message:** ${{ github.event.head_commit.message }}
-          webhook_url: ${{ env.DISCORD_WEBHOOK }}
+deploy:
+  if: github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip')
+  needs: simple_deployment_pipeline
+  runs-on: ubuntu-latest
+  concurrency: deploy-group
+  env:
+    DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+  steps:
+    - uses: actions/checkout@v4
+    - uses: superfly/flyctl-actions/setup-flyctl@master
+    - name: Deploy to Fly.io
+      run: flyctl deploy --remote-only
+      env:
+        FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+    - name: Notify Discord on Deployment Success
+      if: success()
+      uses: Ilshidur/action-discord@master
+      with:
+        args: "Deployment successful! Commit: ${{ github.sha }}"
+        webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+    - name: Notify Discord on Deployment Failure
+      if: failure()
+      uses: Ilshidur/action-discord@master
+      with:
+        args: |
+          Deployment failed! Commit: ${{ github.sha }}
+          **Author:** ${{ github.actor }}
+          **Commit message:** ${{ github.event.head_commit.message }}
+        webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
 
 tag_release:
-  if: ${{ github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip') }}
+  if: github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip')
   needs: [simple_deployment_pipeline, deploy]
   runs-on: ubuntu-latest
   steps:
@@ -122,4 +98,3 @@ tag_release:
       uses: anothrNick/github-tag-action@1.64.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
