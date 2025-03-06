@@ -1,29 +1,27 @@
-name: Backend Pipeline
+name: Deployment pipeline
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
 
 jobs:
-  e2e-tests:
-    runs-on: ubuntu-latest
+  simple_deployment_pipeline:
+    runs-on: ubuntu-20.04
+    env:
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: cd backend && npm install
-    
-      - name: Start backend
-        run: cd backend && npm start &
-
-      - name: Wait for backend to be ready
-        run: cd backend && npx wait-on http://localhost:3000/info --timeout 120000
-
-      - name: Run Cypress tests
-        uses: cypress-io/github-action@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          working-directory: backend
-          command: npm run test:e2e
+          node-version: '20'
+      - name: Install backend dependencies
+        run: cd backend && npm install
+      - name: Install frontend dependencies
+        run: cd frontend && npm install
+      - name: Check style
+        run: cd frontend && npm run eslint
